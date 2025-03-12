@@ -102,7 +102,6 @@ python-dateutil==2.9.0.post0
     #   pandas
 pytz==2025.1
     # via pandas
-pywin32==309
     # via jupyter-core
 pyzmq==26.3.0
     # via
