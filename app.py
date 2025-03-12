@@ -1,7 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request
 import numpy as np
 import joblib
-from sklearn.preprocessing import StandardScaler
 
 # Load the trained model and scaler
 model = joblib.load('fish_model.pkl')
@@ -9,28 +8,36 @@ scaler = joblib.load('scaler.pkl')
 
 app = Flask(__name__)
 
-@app.route('/')
+# Serve the HTML page
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return 'Welcome to the Fish Species Prediction API!'
+    if request.method == "POST":
+        try:
+            # Get form inputs
+            weight = float(request.form["Weight"])
+            length1 = float(request.form["Length1"])
+            length2 = float(request.form["Length2"])
+            length3 = float(request.form["Length3"])
+            height = float(request.form["Height"])
+            width = float(request.form["Width"])
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    data = request.get_json()
-    length = float(data['length'])
-    height = float(data['height'])
-    width = float(data['width'])
+            # Prepare the input data and scale it
+            input_data = np.array([[weight, length1, length2, length3, height, width]])
+            scaled_input = scaler.transform(input_data)
 
-    # Prepare the input for the model
-    input_data = np.array([length, height, width]).reshape(1, -1)
-    input_data_scaled = scaler.transform(input_data)
+            # Make the prediction
+            prediction = model.predict(scaled_input)[0]  # prediction is a species name, not an integer
 
-    # Make the prediction
-    prediction = model.predict(input_data_scaled)
+            # Species labels (Update these to match your dataset)
+            species = ["Bream", "Roach", "Whitefish", "Parkki", "Perch", "Pike", "Smelt"]
 
-    # Define species labels (this must match the model's labels)
-    species = ['Species A', 'Species B', 'Species C']  # Replace with actual species names
+            # Return the prediction
+            return render_template("index.html", prediction=prediction)
 
-    return jsonify({'prediction': species[prediction[0]]})
+        except Exception as e:
+            return f"Error: {str(e)}"
 
-if __name__ == '__main__':
+    return render_template("index.html", prediction=None)
+
+if __name__ == "__main__":
     app.run(debug=True)

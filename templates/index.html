@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Species Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <h1>Fish Species Prediction</h1>
+    <form method="POST">
+        <label for="Weight">Weight:</label>
+        <input type="text" name="Weight" required><br>
+
+        <label for="Length1">Length1:</label>
+        <input type="text" name="Length1" required><br>
+
+        <label for="Length2">Length2:</label>
+        <input type="text" name="Length2" required><br>
+
+        <label for="Length3">Length3:</label>
+        <input type="text" name="Length3" required><br>
+
+        <label for="Height">Height:</label>
+        <input type="text" name="Height" required><br>
+
+        <label for="Width">Width:</label>
+        <input type="text" name="Width" required><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <h2>Predicted Species: {{ prediction }}</h2>
+    {% endif %}
+</body>
+</html>
