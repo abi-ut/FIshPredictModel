@@ -1,76 +1,55 @@
-Fish Species Prediction Model
-Overview
-This repository contains a machine learning model for predicting the species of fish based on physical measurements. The model was developed using the scikit-learn library and a dataset containing various fish species with their corresponding weight, length, height, and width features.
+# Fish Species Prediction Model
 
-The web app, built using Flask, allows users to input measurements and receive predictions about the species of the fish.
+## Overview
 
-Features
-Machine Learning Model: A trained model that predicts fish species based on input features (weight, length, height, width).
-Flask Web Application: A simple Flask web application that allows users to input fish measurements and get predictions.
-Scalable Input: The input features are scaled to optimize the model's prediction accuracy.
-Project Setup
-Prerequisites
-Before running the model, you need the following dependencies:
+This project implements a **Logistic Regression** model to predict fish species based on various physical features of the fish. The model takes six input features—`Weight`, `Length1`, `Length2`, `Length3`, `Height`, and `Width`—and classifies the fish into one of the several species present in the dataset. This is a **multi-class classification** problem where the target variable is the species of the fish.
 
-Python 3.7+
-Flask
-Scikit-learn
-Joblib (for model serialization)
-Numpy
-Gunicorn (for deployment on Heroku)
-To install these dependencies, you can create a virtual environment and install them via pip:
+## Model Details
 
-bash
-Copy
-Edit
-# Create and activate virtual environment (optional)
-python -m venv venv
-source venv/bin/activate  # For Windows: venv\Scripts\activate
+The **Logistic Regression** model used in this project is configured as follows:
 
-# Install required dependencies
-pip install -r requirements.txt
-Files
-fish_model.pkl: The trained machine learning model file.
-scaler.pkl: The scaler used to preprocess the input data.
-app.py: The main Flask application file that serves the model and handles predictions.
-index.html: The HTML form that users interact with to input measurements.
-Running the Flask App Locally
-To run the web app locally:
+- **Model Type**: Multinomial Logistic Regression
+- **Solver**: `lbfgs` (a robust optimizer well-suited for smaller datasets)
+- **Max Iterations**: 500 (to ensure convergence of the algorithm)
+- **Random State**: 42 (ensures reproducibility of results)
 
-Navigate to the project folder.
-Start the Flask development server:
-bash
-Copy
-Edit
-python app.py
-Open your browser and go to http://127.0.0.1:5000 to see the app in action.
-Deployment to Heroku
-This project has been deployed to Heroku. You can access the deployed app by clicking the link below:
+### Hyperparameters
+- **multi_class='multinomial'**: This setting allows the model to handle multiple classes (fish species) independently by using a multinomial logistic regression approach.
+- **solver='lbfgs'**: The Limited-memory Broyden–Fletcher–Goldfarb–Shanno (LBFGS) algorithm is an optimization technique that works well for small datasets and multi-class classification problems.
+- **max_iter=500**: The number of iterations for the solver, which helps ensure convergence and avoids issues in cases where the solution requires many iterations.
+- **random_state=42**: The random seed used to initialize the random number generator, ensuring the results are reproducible.
 
-Fish Species Prediction App on Heroku
+## Purpose
 
-To deploy it yourself, you can follow these steps:
+The goal of the model is to classify a fish into one of several species based on its physical features. By using six different measurements, the model is able to make accurate predictions regarding the species of a fish, which could be useful in various fields, such as environmental studies, fisheries management, and biodiversity research.
 
-Create a Heroku account and install the Heroku CLI.
-Initialize a git repository and push your code to Heroku.
-Set up the required environment for deployment (e.g., Procfile, requirements.txt).
-Deploy the app using git push heroku master.
-Dataset
-The dataset used for training the model contains information about different fish species, including the following features:
+### Model Performance
 
-Species: The type of fish.
-Weight: The weight of the fish (in grams).
-Length1: The first length measurement (in cm).
-Length2: The second length measurement (in cm).
-Length3: The third length measurement (in cm).
-Height: The height of the fish (in cm).
-Width: The width of the fish (in cm).
-Model Training
-The machine learning model was trained using the dataset with the following approach:
+The performance of the model can be evaluated by metrics such as accuracy, precision, recall, and F1 score. These metrics assess how well the model classifies the fish species based on the input features.
 
-The features were scaled using StandardScaler from scikit-learn to ensure proper input scaling.
-A classification model (such as Random Forest) was trained to predict the species based on the scaled features.
-How It Works
-User Input: The user provides the fish's weight, length (3 values), height, and width through the Flask web interface.
-Model Prediction: Once the form is submitted, the app scales the input and uses the trained machine learning model to predict the species.
-Output: The app displays the predicted species on the web page.
+## Dataset Information
+
+The dataset used to train the model contains several attributes related to fish measurements:
+
+- **Weight**: The weight of the fish in grams
+- **Length1**: The length of the fish along one axis
+- **Length2**: The length of the fish along another axis
+- **Length3**: The length of the fish along the third axis
+- **Height**: The height of the fish
+- **Width**: The width of the fish
+
+The target variable is the **Species** of the fish, which is one of several categories.
+
+## Model Usage
+
+The model can be used in various applications where classification of fish species is required based on their physical features. It can be integrated into a web interface (built using Flask), allowing users to enter the physical attributes of a fish and get a prediction of its species.
+
+## Limitations and Future Work
+
+- **Dataset Size**: The accuracy of the model may improve with a larger, more diverse dataset.
+- **Feature Engineering**: Additional features such as water temperature or habitat could potentially improve model performance.
+- **Model Refinement**: Future work could explore using more advanced models, such as decision trees or neural networks, for potentially better accuracy.
+
+---
+
+
