@@ -50,6 +50,5 @@ The model can be used in various applications where classification of fish speci
 - **Feature Engineering**: Additional features such as water temperature or habitat could potentially improve model performance.
 - **Model Refinement**: Future work could explore using more advanced models, such as decision trees or neural networks, for potentially better accuracy.
 
----
 
 
